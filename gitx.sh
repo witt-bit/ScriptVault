@@ -200,12 +200,22 @@ case "$1" in
                 shift
                 worktree_use "$@"
                 ;;
-            *)
+            -h | --help)
                 echo "Usage: gitx.sh worktree <command> [options]"
                 echo "Commands:"
                 echo "  switch     Switch to a specified worktree"
                 echo "  use        Use the current worktree"
-                exit 1
+                echo "Options:"
+                echo "  -h, --help          Show this help message"
+
+                echo -e "\n======================= git worktree help =======================";
+                git worktree --help
+
+                exit 0
+                ;;
+            *)
+                git worktree "$@"
+                exit $?
                 ;;
         esac
         ;;
@@ -234,10 +244,21 @@ case "$1" in
             exit $?
         fi
         ;;
-    *)
+    -h | --help)
         echo "Usage: gitx.sh <command> [options]"
         echo "Commands:"
         echo "  worktree   Manage git worktrees"
-        exit 1
+        echo "  clone      Clone a repository, optionally as a worktree"
+        echo "Options:"
+        echo "  -h, --help          Show this help message"
+        echo "  -b, --checkout      Specify the default branch for cloning to a worktree"
+
+        echo -e "\n====================== git help ======================";
+        git --help
+        exit 0
+        ;;
+    *)
+        git "$@"
+        exit $?
         ;;
 esac
